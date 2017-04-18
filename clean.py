@@ -10,4 +10,9 @@ import itertools
 # Read the csv file
 reviews_df = pd.read_csv('Reviews.csv')
 
-print(len(reviews_df))
+# Array to store comments
+clean_reviews = []
+
+# Loop through comments in 'Text' tag
+for i in range(0, 20):
+    print(reviews_df['Text'][i], "\n\n")
