@@ -2,6 +2,7 @@ import pandas as pd
 import re
 import codecs
 import itertools
+import nltk.data
 
 from bs4 import BeautifulSoup
 
