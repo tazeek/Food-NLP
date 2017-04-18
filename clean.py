@@ -11,6 +11,12 @@ def cleaning(review):
     # Remove HTML tags using beautiful soup
     review = BeautifulSoup(review,"lxml").get_text()
 
+    # Remove URLs
+    review = re.sub(r'\w+:\/\/\S+', ' ', review)
+ 
+    # Word Standardizing (Ex. Looooolll should be Looll)
+    review = ''.join(''.join(s)[:2] for _, s in itertools.groupby(review))
+
     return review
 
 # Read the csv file
@@ -24,5 +30,5 @@ for i in range(0, 20):
 
     # Clean text here 
     clean_review = cleaning(reviews_df['Text'][i])
-    
+
     print(clean_review, "\n\n")
