@@ -4,7 +4,11 @@ import codecs
 import itertools
 import nltk.data
 
+from contractions import contractions
 from bs4 import BeautifulSoup
+
+# Load tokenizer 
+tokenizer = nltk.data.load('tokenizers/punkt/english.pickle')
 
 # Cleaning comments 
 def cleaning(review):
@@ -21,6 +25,15 @@ def cleaning(review):
     # Remove multiple occurrences of non-alphabets
     review = re.sub(r"(\W)\1+",r"\1", review)
 
+    #Convert words to lower case and split them
+    words = review.lower().split()
+
+    #Remove contractions by expansion of words
+    words = [contractions[word] if word in contractions else word for word in words]
+
+    # Rejoin words 
+    review = " ".join(words)
+
     return review
 
 # Read the csv file
@@ -35,4 +48,17 @@ for i in range(0, 20):
     # Clean text here 
     clean_review = cleaning(reviews_df['Text'][i])
 
+    clean_reviews.append(clean_review)
+
     print(clean_review, "\n\n")
+
+# Loop through each review 
+for i in range(0,20):
+
+    # Tokenize sentence here 
+    sentences = tokenizer.tokenize(clean_reviews[i])
+
+    for sentence in sentences:
+        print(sentence)
+
+    print("\n\n")
