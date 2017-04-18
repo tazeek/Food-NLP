@@ -17,6 +17,9 @@ def cleaning(review):
     # Word Standardizing (Ex. Looooolll should be Looll)
     review = ''.join(''.join(s)[:2] for _, s in itertools.groupby(review))
 
+    # Remove multiple occurrences of non-alphabets
+    review = re.sub(r"(\W)\1+",r"\1", review)
+
     return review
 
 # Read the csv file
