@@ -13,9 +13,19 @@ def cleaningComment(review):
     # Remove HTML tags using beautiful soup
     review = BeautifulSoup(review,"lxml").get_text()
 
+    # Remove encodings
+    review = re.sub(r'\\\\', r'\\', review)
+    review = re.sub(r'\\x\w{2,2}', ' ', review)
+    review = re.sub(r'\\u\w{4,4}', ' ', review)
+    review = re.sub(r'\\n', '.', review)
+
     # Remove Unicode characters
-    review = codecs.decode(review, 'unicode-escape')
-    review = ''.join([i if ord(i) < 128 else '' for i in review])
+    try:
+        review = codecs.decode(review, 'unicode-escape')
+        review = ''.join([i if ord(i) < 128 else '' for i in review])
+    except UnicodeDecodeError:
+        print(review)
+        exit()
 
     # Remove URLs
     review = re.sub(r'\w+:\/\/\S+', ' ', review)
