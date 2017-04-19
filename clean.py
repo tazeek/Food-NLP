@@ -77,7 +77,7 @@ clean_reviews = []
 sentences = []
 
 # Loop through comments in 'Text' tag
-for i in range(0, 20):
+for i in range(0, 10):
 
     # Clean text here 
     clean_review = cleaningComment(reviews_df['Text'][i])
@@ -85,16 +85,15 @@ for i in range(0, 20):
     clean_reviews.append(clean_review)
 
 # Loop through each review 
-for i in range(0,20):
+for i in range(0,10):
 
     # Sentence Segmentation
-    print("=" * 30)
-
     clean_sentences = tokenizeSentence(clean_reviews[i])
 
+    # Append sentences 
     for sentence in clean_sentences:
-        print(sentence, "\n")
-    
-    print("=" * 30)
+        sentences.append(sentence)
 
-    print("\n\n")
+# Print out how many sentences done
+print(sentences)
+print("Total sentences: %d" % (len(sentences)))
