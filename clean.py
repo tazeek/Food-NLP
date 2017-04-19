@@ -3,12 +3,9 @@ import re
 import codecs
 import itertools
 
-from nltk.tokenize import sent_tokenize, word_tokenize
+from nltk.tokenize import sent_tokenize
 from contractions import contractions
 from bs4 import BeautifulSoup
-
-# Load tokenizer 
-#tokenizer = nltk.data.load('tokenizers/punkt/english.pickle')
 
 # Cleaning comments 
 def cleaningComment(review):
@@ -55,8 +52,6 @@ def cleaningSentence(sentence):
     # Rejoin words
     sentence = " ".join(words)
 
-    print(sentence, "\n")
-
     return sentence 
 
 # Tokenize Sentences
@@ -72,7 +67,7 @@ def tokenizeSentence(review):
         clean_sentence = cleaningSentence(sentence)
         clean_sentences.append(clean_sentence)
     
-    return sentences
+    return clean_sentences
 
 # Read the csv file
 reviews_df = pd.read_csv('Reviews.csv')
@@ -97,8 +92,8 @@ for i in range(0,20):
 
     clean_sentences = tokenizeSentence(clean_reviews[i])
 
-    #for sentence in clean_sentences:
-        #print(sentence)
+    for sentence in clean_sentences:
+        print(sentence, "\n")
     
     print("=" * 30)
 
