@@ -94,6 +94,9 @@ for i in range(0,10):
     for sentence in clean_sentences:
         sentences.append(sentence)
 
-# Print out how many sentences done
-print(sentences)
-print("Total sentences: %d" % (len(sentences)))
+
+# Convert to data frame 
+df = pd.DataFrame(data={'sentence': sentences})
+
+# Save the dataframe in CSV format 
+df.to_csv('clean_sentences.csv', index=False)
