@@ -71,29 +71,43 @@ def tokenizeSentence(review):
 
 # Read the csv file
 reviews_df = pd.read_csv('Reviews.csv')
+total_reviews = len(reviews_df)
 
 # Array to store comments and sentences
 clean_reviews = []
 sentences = []
 
 # Loop through comments in 'Text' tag
-for i in range(0, 10):
+print("\n", "=" * 30)
+print("CLEAING REVIEWS")
+print("=" * 30, "\n")
+
+for i, review in enumerate(reviews_df['Text']): 
 
     # Clean text here 
     clean_review = cleaningComment(reviews_df['Text'][i])
 
     clean_reviews.append(clean_review)
 
+    if i % 10000 == 0:
+        print("%d out of %d  reviews cleaned" % (i+1, total_reviews))
+
 # Loop through each review 
-for i in range(0,10):
+print("=" * 30)
+print("\n\nSENTENCE SEGMENTATION")
+print("=" * 30, "\n")
+
+for i, review in enumerate(clean_reviews):
 
     # Sentence Segmentation
-    clean_sentences = tokenizeSentence(clean_reviews[i])
+    clean_sentences = tokenizeSentence(review)
 
     # Append sentences 
     for sentence in clean_sentences:
         sentences.append(sentence)
 
+    if i % 10000 == 0:
+        print("%d out of %d  reviews segmented" % (i, total_reviews))
 
 # Convert to data frame 
 df = pd.DataFrame(data={'sentence': sentences})
