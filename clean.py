@@ -2,13 +2,13 @@ import pandas as pd
 import re
 import codecs
 import itertools
-import nltk.data
 
+from nltk.tokenize import sent_tokenize, word_tokenize
 from contractions import contractions
 from bs4 import BeautifulSoup
 
 # Load tokenizer 
-tokenizer = nltk.data.load('tokenizers/punkt/english.pickle')
+#tokenizer = nltk.data.load('tokenizers/punkt/english.pickle')
 
 # Cleaning comments 
 def cleaningComment(review):
@@ -44,21 +44,33 @@ def cleaningComment(review):
 def cleaningSentence(sentence):
 
     # Remove non-alphanumeric characters
+    sentence = re.sub("[^a-zA-Z0-9'\s]", " ", sentence)
 
-    # Convert words to lower case and split them 
+    # Convert words to lower case  
+    sentence = sentence.lower().split()
 
-    # Remove contractions by expansion of words 
+    # Remove contractions by expansion of words
+    words = [contractions[word] if word in contractions else word for word in sentence]
 
     # Rejoin words
+    sentence = " ".join(words)
+
+    print(sentence, "\n")
+
+    return sentence 
 
 # Tokenize Sentences
-def tokenize(review):
+def tokenizeSentence(review):
 
     # Tokenize sentence here 
-    sentences = tokenizer.tokenize(review)
-    clean_sentence = []
+    sentences = sent_tokenize(review)
+    clean_sentences = []
 
-    print(sentences)
+    for sentence in sentences:
+        
+        # Clean sentence here 
+        clean_sentence = cleaningSentence(sentence)
+        clean_sentences.append(clean_sentence)
     
     return sentences
 
@@ -73,7 +85,7 @@ sentences = []
 for i in range(0, 20):
 
     # Clean text here 
-    clean_review = cleaning(reviews_df['Text'][i])
+    clean_review = cleaningComment(reviews_df['Text'][i])
 
     clean_reviews.append(clean_review)
 
@@ -81,9 +93,13 @@ for i in range(0, 20):
 for i in range(0,20):
 
     # Sentence Segmentation
-    clean_sentences = tokenize(clean_reviews[i])
+    print("=" * 30)
+
+    clean_sentences = tokenizeSentence(clean_reviews[i])
 
     #for sentence in clean_sentences:
         #print(sentence)
+    
+    print("=" * 30)
 
     print("\n\n")
