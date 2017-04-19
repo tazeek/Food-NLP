@@ -11,10 +11,14 @@ from bs4 import BeautifulSoup
 tokenizer = nltk.data.load('tokenizers/punkt/english.pickle')
 
 # Cleaning comments 
-def cleaning(review):
+def cleaningComment(review):
 
     # Remove HTML tags using beautiful soup
     review = BeautifulSoup(review,"lxml").get_text()
+
+    # Remove Unicode characters
+    review = codecs.decode(review, 'unicode-escape')
+    review = ''.join([i if ord(i) < 128 else '' for i in review])
 
     # Remove URLs
     review = re.sub(r'\w+:\/\/\S+', ' ', review)
@@ -25,10 +29,10 @@ def cleaning(review):
     # Remove multiple occurrences of non-alphabets
     review = re.sub(r"(\W)\1+",r"\1", review)
 
-    #Convert words to lower case and split them
+    # Convert words to lower case and split them
     words = review.lower().split()
 
-    #Remove contractions by expansion of words
+    # Remove contractions by expansion of words
     words = [contractions[word] if word in contractions else word for word in words]
 
     # Rejoin words 
@@ -36,11 +40,34 @@ def cleaning(review):
 
     return review
 
+# Cleaning sentences 
+def cleaningSentence(sentence):
+
+    # Remove non-alphanumeric characters
+
+    # Convert words to lower case and split them 
+
+    # Remove contractions by expansion of words 
+
+    # Rejoin words
+
+# Tokenize Sentences
+def tokenize(review):
+
+    # Tokenize sentence here 
+    sentences = tokenizer.tokenize(review)
+    clean_sentence = []
+
+    print(sentences)
+    
+    return sentences
+
 # Read the csv file
 reviews_df = pd.read_csv('Reviews.csv')
 
-# Array to store comments
+# Array to store comments and sentences
 clean_reviews = []
+sentences = []
 
 # Loop through comments in 'Text' tag
 for i in range(0, 20):
@@ -50,15 +77,13 @@ for i in range(0, 20):
 
     clean_reviews.append(clean_review)
 
-    print(clean_review, "\n\n")
-
 # Loop through each review 
 for i in range(0,20):
 
-    # Tokenize sentence here 
-    sentences = tokenizer.tokenize(clean_reviews[i])
+    # Sentence Segmentation
+    clean_sentences = tokenize(clean_reviews[i])
 
-    for sentence in sentences:
-        print(sentence)
+    #for sentence in clean_sentences:
+        #print(sentence)
 
     print("\n\n")
