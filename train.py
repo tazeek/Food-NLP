@@ -7,6 +7,8 @@ import time
 import pandas as pd 
 import os 
 
+np.random.seed(7)
+
 # Clear screen 
 os.system('cls')
 
@@ -30,8 +32,8 @@ logging.basicConfig(format='%(asctime)s : %(levelname)s : %(message)s', level=lo
 # Word2Vec Parameters (START)
 
 sg = 1 # Use Skip-Gram Model
-size = 300 # Dimensionality size of Projection Layer
-window = 5 # Window of surrounding words
+size = 500 # Dimensionality size of Projection Layer
+window = 10 # Window of surrounding words
 alpha = 0.025 # Initial learning rate of the Neural Network
 min_count = 5 # Minimum Frequency of Words
 workers = multiprocessing.cpu_count() # Number of workers
@@ -49,7 +51,7 @@ model = Word2Vec(word_list, sg=sg, size=size, window=window, alpha=alpha,
 	hs=hs, iter=iter, sample=sample)
 
 # Give the model name of file
-model_name = "w2v_food_unigram_300"
+model_name = "w2v_food_unigram_500"
 
 # Save the file after trimming
 model.init_sims(replace=True) # Trim down memory size
