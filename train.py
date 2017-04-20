@@ -10,13 +10,12 @@ import os
 # Clear screen 
 os.system('cls')
 
-# Utilize the full power of the worker threads available
-#os.system("taskset -p 0xff %d" % os.getpid())
+# Data Streaming Class
+class Streamer():
 
-# Load Dataframe (Replace later with data streamer)
-df = pd.read_csv('clean_sentences.csv')
+	def __iter__(self):
 
-# Testing Word Segmentation
-test = df['sentence'][0]
-print(test)
-print(word_tokenize(test))
+		# Stream the CSV file
+		for sentence in pd.read_csv('clean_sentences')['sentence']:
+			yield word_tokenize(sentence)
+
