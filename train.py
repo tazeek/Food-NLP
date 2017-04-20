@@ -53,4 +53,4 @@ model_name = "w2v_food_unigram_300"
 
 # Save the file after trimming
 model.init_sims(replace=True) # Trim down memory size
-model.save_word2vec_format(model_name + '.bin', binary=True)
+model.wv.save_word2vec_format(model_name + '.bin', binary=True)
