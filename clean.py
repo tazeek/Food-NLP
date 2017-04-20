@@ -15,6 +15,7 @@ def cleaningComment(review):
 
     # Remove encodings
     review = re.sub(r'\\\\', r'\\', review)
+    review = re.sub(r'\\', ' ', review)
     review = re.sub(r'\\x\w{2,2}', ' ', review)
     review = re.sub(r'\\u\w{4,4}', ' ', review)
     review = re.sub(r'\\n', '.', review)
@@ -100,7 +101,7 @@ for i, review in enumerate(reviews_df['Text']):
     clean_reviews.append(clean_review)
 
     if i % 10000 == 0:
-        print("%d out of %d  reviews cleaned" % (i+1, total_reviews))
+        print("%d out of %d  reviews cleaned" % (i, total_reviews))
 
 # Loop through each review 
 print("=" * 30)
