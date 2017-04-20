@@ -1,4 +1,4 @@
-from gensim.models import word2vec
+from gensim.models import Word2Vec
 from nltk.tokenize import word_tokenize
 
 import logging
@@ -10,18 +10,19 @@ import os
 # Clear screen 
 os.system('cls')
 
-# Data Streaming Class
-class Streamer():
+# Panda testing
+word_list = []
+df = pd.read_csv('clean_sentences.csv')
 
-	def __iter__(self):
+for i, sentence in enumerate(df['sentence']):
+	segmented_words = word_tokenize(sentence)
+	word_list.append(segmented_words)
 
-		# Stream the CSV file
-		for sentence in pd.read_csv('clean_sentences')['sentence']:
-			yield word_tokenize(sentence)
+	if i % 10000 == 0:
+		print("%d out of %d sentences segmented" % (i, len(df)))
 
-
-# Create a stream object 
-sent_stream = Streamer()
+# Clear up memory
+del df 
 
 # Logging Parameters
 logging.basicConfig(format='%(asctime)s : %(levelname)s : %(message)s', level=logging.INFO)
@@ -47,4 +48,9 @@ model = Word2Vec(word_list, sg=sg, size=size, window=window, alpha=alpha,
 	min_count=min_count, workers=workers, max_vocab_size=max_vocab_size, 
 	hs=hs, iter=iter, sample=sample)
 
-model_name = "w2v_reddit_bigram_300d(FINAL)"
+# Give the model name of file
+model_name = "w2v_food_unigram_300"
+
+# Save the file after trimming
+model.init_sims(replace=True) # Trim down memory size
+model.save_word2vec_format(model_name + '.bin', binary=True)
